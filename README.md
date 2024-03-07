@@ -1,6 +1,6 @@
 # Scott Walker
 
-## FreeCodeCamp Budget APp project
+## FreeCodeCamp Budget App project
 
 This is the third project in a series of five project for the FCC certification in Scientific Computing with Python.
 
