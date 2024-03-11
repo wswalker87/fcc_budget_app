@@ -16,23 +16,32 @@ class Category:
         """
     self.name = name
     self.ledger = []
+    global balance, description, name
+
 
     def deposit(self, amount, description=""):
-        """**deposit:**: Accepts an amount and description. If no description, defaults to empty string. Method will apped an object to the ledger list
+        """**deposit:**: Accepts an amount and description. If no description, defaults to empty string. Method will append an object to the ledger list
         in the form of {"amount": amount, "description": description}.
         """
         self.ledger.append({"amount": amount, "description": description})
+        balance = balance =+ amount
 
     def withdraw(self, amount):
         """**withdraw:** Similar to deposit, but the amount passed in should be stored in the ledger as a negative number. 
             If there are not enough funds, nothing should be added to the ledger. This method should return True if the withdrawal took place, and False otherwise.
         """
-        pass
-
+        if balance > 0:
+            self.ledger.append({"amount": -abs(amount), "description": description}) # How do I make this amount negative?
+            return True
+            balance =+ amount
+        else:
+            return False
+            
+        
     def get_balance(self):
         """**get_balance:** Return the current balance of the category, based off deposits and withdrawls.  
         """
-        pass
+        current_balance = balance
 
     def transfer(self, amount, description=""):
         """**transfer:** Args are an amount and another budget category. Will add a withdrawl with the amount and description "Transfer to [Destination Budget Category]". 
