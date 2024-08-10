@@ -38,10 +38,10 @@ class Category:
             return False
             
         
-    # def get_balance(self):
+    def get_balance(self):
     #     """**get_balance:** Return the current balance of the category, based off deposits and withdrawls.  
     #     """
-    #     current_balance = self.balance
+        return self.balance
 
     # def transfer(self, amount, description=""):
     #     """**transfer:** Args are an amount and another budget category. Will add a withdrawl with the amount and description "Transfer to [Destination Budget Category]". 
@@ -87,7 +87,7 @@ def test_withdraw():
     print(category.ledger)
     assert category.ledger == [{"amount": 100, "description": "Initial withdrawl"}]
     print(category.balance)
-    assert category.balance == 0
+    assert category.balance == 0 # add assertion statement here. 
     
     # Test withdraw without enough money
     category.balance = 100
@@ -100,5 +100,24 @@ def test_withdraw():
     
     print("All withdraw tests passed.")
 
+def test_get_balance():
+    category = Category("Food")
+    category_balance = 0
+    print(category.ledger)
+    # Test balance adding to the ledger
+    category.deposit(2000)
+    category.deposit(50)    
+    category.withdraw(1500)
+    print(category.ledger)
+
+    # Get the current balance amount
+    current_balance = category.get_balance()
+
+    #Verify that the get_balance method returns the correct balance.
+    assert category.balance == 550, f"Balance expected to be 550. Actual balance is {current_balance}"
+    
+    print("All balance request tests passed.")
+
 test_deposit()
 test_withdraw()
+test_get_balance()
