@@ -30,8 +30,8 @@ class Category:
         """**withdraw:** Similar to deposit, but the amount passed in should be stored in the ledger as a negative number. 
             If there are not enough funds, nothing should be added to the ledger. This method should return True if the withdrawal took place, and False otherwise.
         """
-        if self.balance >= amount:
-            self.ledger.append({"amount": amount, "description": description})
+        if self.check_funds(amount):
+            self.ledger.append({"amount": -amount, "description": description})
             self.balance -= amount
             return True
         else:
@@ -44,16 +44,25 @@ class Category:
         return self.balance
 
     # def transfer(self, amount, description=""):
+    # def transfer(self, amount, description=""):
     #     """**transfer:** Args are an amount and another budget category. Will add a withdrawl with the amount and description "Transfer to [Destination Budget Category]". 
-    # The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]". 
-    # If there are not enough funds, nothing should be added to either ledgers. This method should return True if the transfer took place, and False otherwise.
+    #     The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]". 
+    #     If there are not enough funds, nothing should be added to either ledgers. This method should return True if the transfer took place, and False otherwise.
     #     """
-    #     pass
+    #     Transfer //amount// to [Destination Budget Category] with Transfer to [Destination Budget Category]
+    #         Add the //amount// to whatever the destination cat was. 
+    #         Call check funds method to see if there are enough funds to transfer.
+    #         If check funds is good, add to the destination cat, subtract from source cat and return True ##This might be more doable with the deposit and withdraw methods and work better with the idea of using methods. 
+    #         If check funds is bad, return False
 
-    # def check_funds(self, amount):
+
+    def check_funds(self, amount):
     #     """**check_funds:** Accepts an amount as an arg. Returns False if the amount is greater than the balance in the category, True otherwise. Should be used by withdraw and transfer.
     #     """
-    #     pass
+        if amount > self.balance:
+            return False
+        else:
+            return True
 
 # Example of unit tests
 def test_deposit():
@@ -85,17 +94,15 @@ def test_withdraw():
     print(category.balance)
     category.withdraw(100, "Initial withdrawl")
     print(category.ledger)
-    assert category.ledger == [{"amount": 100, "description": "Initial withdrawl"}]
+    assert category.ledger == [{"amount": -100, "description": "Initial withdrawl"}]
     print(category.balance)
     assert category.balance == 0 # add assertion statement here. 
     
     # Test withdraw without enough money
-    category.balance = 100
-    category.withdraw(50)
+    category.balance = 50
+    category.withdraw(100)
     assert category.ledger == [
-        {"amount": 100, "description": "Initial withdrawl"},
-        {"amount": 50, "description": ""}
-    ]
+        {"amount": -100, "description": "Initial withdrawl"}]
     assert category.balance == 50
     
     print("All withdraw tests passed.")

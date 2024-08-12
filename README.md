@@ -4,7 +4,7 @@
 
 This is the third project in a series of five project for the FCC certification in Scientific Computing with Python.
 
-[Link to project guidlines](https://www.freecodecamp.org/learn/scientific-computing-with-python/scientific-computing-with-python-projects/budget-app)
+[Link to project guidlines](https://www.freecodecamp.org/learn/scientific-computing-with-python/build-a-budget-app-project/build-a-budget-app-project)
 
 [Description](#description)
 
