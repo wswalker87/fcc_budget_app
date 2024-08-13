@@ -39,30 +39,29 @@ class Category:
             
         
     def get_balance(self):
-    #     """**get_balance:** Return the current balance of the category, based off deposits and withdrawls.  
-    #     """
-        return self.balance
+         """**get_balance:** Return the current balance of the category, based off deposits and withdrawls."""
+         return self.balance
 
-    # def transfer(self, amount, description=""):
-    # def transfer(self, amount, description=""):
-    #     """**transfer:** Args are an amount and another budget category. Will add a withdrawl with the amount and description "Transfer to [Destination Budget Category]". 
-    #     The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]". 
-    #     If there are not enough funds, nothing should be added to either ledgers. This method should return True if the transfer took place, and False otherwise.
-    #     """
-    #     Transfer //amount// to [Destination Budget Category] with Transfer to [Destination Budget Category]
-    #         Add the //amount// to whatever the destination cat was. 
-    #         Call check funds method to see if there are enough funds to transfer.
-    #         If check funds is good, add to the destination cat, subtract from source cat and return True ##This might be more doable with the deposit and withdraw methods and work better with the idea of using methods. 
-    #         If check funds is bad, return False
-
+    def transfer(self, amount, description=""):
+        """**transfer:** Args are an amount and another budget category. Will add a withdrawl with the amount and description "Transfer to [Destination Budget Category]". 
+        The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]". 
+        If there are not enough funds, nothing should be added to either ledgers. This method should return True if the transfer took place, and False otherwise.
+        """
+        if self.check_funds(amount):
+            self.withdraw(amount, f"Transfer to {category.name}")
+            category.deposit(amount, f"Transfer from{category.name}")
+            return True
+        return False
 
     def check_funds(self, amount):
-    #     """**check_funds:** Accepts an amount as an arg. Returns False if the amount is greater than the balance in the category, True otherwise. Should be used by withdraw and transfer.
-    #     """
+        """**check_funds:** Accepts an amount as an arg. Returns False if the amount is greater than the balance in the category, True otherwise. Should be used by withdraw and transfer.
+        """
         if amount > self.balance:
             return False
         else:
             return True
+        
+        
 
 # Example of unit tests
 def test_deposit():
@@ -125,6 +124,40 @@ def test_get_balance():
     
     print("All balance request tests passed.")
 
+def test_check_funds():
+    category = Category("Food")
+    category_balance = 0
+    print(category.ledger)
+    category.deposit(2000)
+    category.withdraw(1000)
+    print(category.ledger)
+    
+    # Get the current balance
+    current_balance = category.get_balance()
+    
+    # Verify that check_funds allows the transaction to continue
+    assert category.balance == 1000, f"Balance is expected to be 1000. Actual balance is {current_balance}"
+
+    # Verify that if the balance is insufficient, the transaction is declined. 
+    category = Category("Food")
+    category_balance = 0
+    print(category.ledger)
+    category.deposit(2000)
+    category.withdraw(3000)
+    print(category.ledger)
+    
+    # Get the current balance
+    current_balance = category.get_balance()
+    
+    # Verify that check_funds allows the transaction to continue
+    assert category.balance == 2000, f"Balance is expected to be 2000. Actual balance is {current_balance}"
+
+    print("All check_funds test passed.")
+
+                                                                                    
+          
+
 test_deposit()
 test_withdraw()
 test_get_balance()
+test_check_funds()
