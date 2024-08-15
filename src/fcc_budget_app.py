@@ -39,17 +39,17 @@ class Category:
             
         
     def get_balance(self):
-         """**get_balance:** Return the current balance of the category, based off deposits and withdrawls."""
-         return self.balance
+        """**get_balance:** Return the current balance of the category, based off deposits and withdrawls."""
+        return self.balance
 
-    def transfer(self, amount, description=""):
+    def transfer(self, amount, category):
         """**transfer:** Args are an amount and another budget category. Will add a withdrawl with the amount and description "Transfer to [Destination Budget Category]". 
         The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]". 
         If there are not enough funds, nothing should be added to either ledgers. This method should return True if the transfer took place, and False otherwise.
         """
         if self.check_funds(amount):
             self.withdraw(amount, f"Transfer to {category.name}")
-            category.deposit(amount, f"Transfer from{category.name}")
+            category.deposit(amount, f"Transfer from {self.name}")
             return True
         return False
 
@@ -154,10 +154,51 @@ def test_check_funds():
 
     print("All check_funds test passed.")
 
-                                                                                    
-          
+def test_transfer():
+    food = Category("Food")
+    clothing = Category("Clothing")
+
+    # Make initial deposits
+    food.deposit(1000, "Initial deposit")
+    clothing.deposit(500, "Initial deposit")
+
+    # Print initial balances
+    print(f"Initial balance of Food category: {food.get_balance()}")
+    print(f"Initial balance of Clothing category: {clothing.get_balance()}")
+
+    # Transfer 100 from food to clothing
+    food.transfer(100, clothing)
+
+    # Food should be 900 and clothing should be 600
+    assert food.get_balance() == 900, f"Expected balance: 900, but got {food.get_balance()}"
+    assert clothing.get_balance() == 600, f"Expected balance: 600, but got {clothing.get_balance()}"
+
+    # Print balances after transfer
+    print(f"Balance of Food category after transfer: {food.get_balance()}")
+    print(f"Balance of Clothing category after transfer: {clothing.get_balance()}")   
+
+    # Now verify the ledger entries for each category
+    print(food.ledger)
+    assert food.ledger == [
+        {'amount': 1000, 'description': 'Initial deposit'},
+        {'amount': -100, 'description': 'Transfer to Clothing'}
+    ], f'Food ledger mismatch: {food.ledger}'
+    
+    assert clothing.ledger == [
+        {'amount': 500, 'description': 'Initial deposit'},
+        {'amount': 100, 'description': 'Transfer from Food'}
+    ], f'Clothing ledger mismatch: {clothing.ledger}'
+
+    # Test transfer with insufficient funds
+    result = food.transfer(1000, clothing)
+    assert result is False, "Transfer should not occur due to insufficient funds"
+    assert food.get_balance() == 900, "Balance should remain the same after failed transfer"
+    assert clothing.get_balance() == 600, "Balance should remain the same after failed transfer"
+    
+    print("All transfer tests passed.")
 
 test_deposit()
 test_withdraw()
 test_get_balance()
 test_check_funds()
+test_transfer()
