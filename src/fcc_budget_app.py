@@ -77,3 +77,76 @@ class Category:
         total_line = f"Total: {self.balance:.2f}"
         
         return title_line + ledger_lines + total_line
+
+def create_spend_chart(categories):
+    # Call a method that calculates percentages (spending per cat and total) and round to the nearest 10
+    # Create a list of strings where each string is a row of the chart, 
+    # Iterate over the list of percentage levels and check if tihe spending percentage >= that level and write an "o"
+    # Make a y-axis (100, 90, 80)
+    # Give each row a 'o' if needed. 
+    # Make the x-axis with the category names (vertical)
+    # Combine everything into a single string and output it. 
+    chart_label = "Percentage spent by category"
+    x_axis = f"100|\n 90|\n 80|\n 70|\n 60|\n 50|\n 40|\n 30|\n 20|\n 10|\n  0|"
+
+    for category in categories:
+        #print(category)
+        first_letter = [category[0] for category in categories]
+        second_letter = [category[1] for category in categories]
+        third_letter = [category[2] for category in categories]
+        fourth_letter = [category[3] for category in categories]
+        fifth_letter = [category[4] for category in categories]
+        #print(f"{category[0]}  {category[0]}")
+        #print(category[1])
+        print(f"{first_letter}\n {second_letter} \n {third_letter} \n {fourth_letter} \n {fifth_letter}")
+    
+    # The line below works to print the label and the x axis. 
+    # Commented it out for the sake of dev work.
+    #print(f"{chart_label}\n{x_axis}")
+
+#food = 100
+
+
+
+create_spend_chart(["food", "rent", "hookers"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# food = Category('Food')
+# food.deposit(1000, 'deposit')
+# food.withdraw(10.15, 'groceries')
+# food.withdraw(15.89, 'restaurant and more food for dessert')
+# clothing = Category('Clothing')
+# food.transfer(50, clothing)
+# print(food)
+
+# food = Category('Rent')
+# food.deposit(1000, 'deposit')
+# food.withdraw(10.15, 'rent')
+# clothing = Category('Clothing')
+# food.transfer(50, clothing)
+# print(food)
